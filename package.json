@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.9",
-    "astro": "^5.4.0",
-    "tailwindcss": "^4.0.9"
+    "astro": "^5.4.1",
+    "particles.js": "^2.0.0",
+    "tailwindcss": "^4.0.9",
+    "tw-elements": "^2.0.0",
+    "vite": "^6.2.0"
   }
 }
