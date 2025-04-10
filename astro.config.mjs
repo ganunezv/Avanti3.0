@@ -12,6 +12,7 @@ export default defineConfig({
   },
   output: "server",
   adapter: vercel({
+    includeFiles: ["./my-data.json"],
     webAnalytics: {
       enabled: true,
     },

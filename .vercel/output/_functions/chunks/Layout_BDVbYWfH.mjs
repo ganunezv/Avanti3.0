@@ -1,0 +1,21 @@
+import { c as createComponent, m as maybeRenderHead, b as renderScript, a as renderTemplate, d as createAstro, e as addAttribute, f as renderHead, r as renderComponent, g as renderSlot } from './astro/server_Dyv4Gtcf.mjs';
+import 'kleur/colors';
+/* empty css                         */
+import 'clsx';
+
+const $$Header = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`${maybeRenderHead()}<header class="bg-white shadow-md sticky top-0"> <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> <div class="flex justify-between items-center py-4"> <a href="/"> <img class="w-64 h-32" src="public/logo.jpg"> </a> <nav class="hidden md:flex space-x-10"> <a href="/" class="text-gray-700 hover:text-gray-900">Inicio</a> <a href="/nuestrosProductos" class="text-gray-700 hover:text-gray-900">Nuestros Productos</a> <a href="/sobreNosotros" class="text-gray-700 hover:text-gray-900">Acerca de Nosotros</a> <a href="http://wa.me/573015006672" class="text-gray-700 hover:text-gray-900">Contactanos</a> <a href="/pqrs" class="text-gray-700 hover:text-gray-900">PQRS</a> </nav> <button class="md:hidden text-gray-700 focus:outline-none"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path> </svg> </button> </div> </div> </header> ${renderScript($$result, "C:/Users/TUF GAMING/Desktop/Programacion de tavo/2.Proyectos/Proyectos/Avanti 3.0/Avanti3.0/src/components/Header.astro?astro&type=script&index=0&lang.ts")}`;
+}, "C:/Users/TUF GAMING/Desktop/Programacion de tavo/2.Proyectos/Proyectos/Avanti 3.0/Avanti3.0/src/components/Header.astro", void 0);
+
+const $$Footer = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`${maybeRenderHead()}<footer class="bg-gray-50 py-8 text-gray-600"> <div class="max-w-4xl mx-auto flex flex-col items-center"> <!-- Logo --> <div class="flex items-center space-x-2 mb-4"> <a href="/"> <img class="w-64 h-32" src="public/logo.jpg"> </a> </div> <!-- Links --> <nav class="flex space-x-6 text-sm font-medium text-gray-600 mb-6"> <a href="#" class="hover:text-gray-900">Nuestros Productos</a> <a href="#" class="hover:text-gray-900">Testimonios</a> <a href="#" class="hover:text-gray-900">Nuestros clientes</a> </nav> <!-- Copyright --> <p class="text-xs text-gray-400">Copyright © 2025 Made By Gustavo Nuñez Vallejo. All rights reserved.</p> <!-- Icons --> <div class="flex space-x-4 mt-4"> <a href="#" class="text-gray-400 hover:text-gray-600"> <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"></path> </svg> </a> <a href="#" class="text-gray-400 hover:text-gray-600"> <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path> </svg> </a> </div> </div> </footer>`;
+}, "C:/Users/TUF GAMING/Desktop/Programacion de tavo/2.Proyectos/Proyectos/Avanti 3.0/Avanti3.0/src/components/Footer.astro", void 0);
+
+const $$Astro = createAstro();
+const $$Layout = createComponent(($$result, $$props, $$slots) => {
+  const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
+  Astro2.self = $$Layout;
+  return renderTemplate`<html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator"${addAttribute(Astro2.generator, "content")}><title>Avanti Logistics</title>${renderHead()}</head> <body data-astro-cid-sckkx6r4> ${renderComponent($$result, "Header", $$Header, { "data-astro-cid-sckkx6r4": true })} ${renderSlot($$result, $$slots["default"])} ${renderComponent($$result, "Footer", $$Footer, { "data-astro-cid-sckkx6r4": true })} </body></html>`;
+}, "C:/Users/TUF GAMING/Desktop/Programacion de tavo/2.Proyectos/Proyectos/Avanti 3.0/Avanti3.0/src/layouts/Layout.astro", void 0);
+
+export { $$Layout as $ };
