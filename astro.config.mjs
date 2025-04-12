@@ -13,6 +13,7 @@ export default defineConfig({
   output: "static",
   adapter: vercel({
     includeFiles: ["./my-data.json"],
+    imageService: true,
     webAnalytics: {
       enabled: true,
     },
