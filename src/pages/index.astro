@@ -1,37 +1,40 @@
 ---
 import Layout from '../layouts/Layout.astro';
-//import Particles from '../components/particles.astro'
+import Particles from '../components/particles.astro'
 ---
 
 <Layout>
-    <div class="flex flex-col lg:flex-row justify-around py-10 px-4 lg:py-24 lg:px-16 gap-8 bg-blue-700">
-        
-        <div class="w-full lg:w-1/2">
-            <h2 class="text-3xl text-white pb-5">
-                <span>
-                    Transporte de Carga<br>
-                    Maritima, Terrestre<br>
-                    y Aérea<br>
+    <div class="">
+        <Particles></Particles>
+        <div class="flex flex-col lg:flex-row justify-around py-10 px-4 lg:py-24 lg:px-16 gap-8">
+            <div class="w-full lg:w-1/2">
+                <h2 class="text-3xl text-white pb-5">
+                    <span>
+                        Transporte de Carga<br>
+                        Maritima, Terrestre<br>
+                        y Aérea<br>
 
-                </span>
-            </h2>
-            <div>
-                <p class="text-white">
-                    Somos una empresa especializada en soluciones de transporte de carga y comercio exterior. Nos comprometemos a brindar un servicio confiable y eficiente. Asegurando que sus mercancias lleguen a su destino de manera segura y puntual. Con experiencia en el sector, ofrecemos asesoria personalizada para optimizar cada envio.
-                </p>
+                    </span>
+                </h2>
+                <div>
+                    <p class="text-white">
+                        Somos una empresa especializada en soluciones de transporte de carga y comercio exterior. Nos comprometemos a brindar un servicio confiable y eficiente. Asegurando que sus mercancias lleguen a su destino de manera segura y puntual. Con experiencia en el sector, ofrecemos asesoria personalizada para optimizar cada envio.
+                    </p>
+                </div>
+                <div class="pt-5">
+                    <a class="inline-block rounded-sm bg-[#000588] px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:ring-3 focus:outline-hidden" href="http://wa.me/573233412906">
+                        Habla con un experto aqui!
+                    </a>
+                </div>
             </div>
-            <div class="pt-5">
-                <a class="inline-block rounded-sm bg-[#4555B7] px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:ring-3 focus:outline-hidden" href="http://wa.me/573233412906">
-                    Contáctanos
-                </a>
-            </div>
-        </div>
-    
         
-        <div class="w-full lg:w-1/2 h-96 lg:h-auto">
-            <img src="HomepageCorrecta.jpg">
+            
+            <div class="w-full lg:w-1/2 h-96 lg:h-auto">
+                <img src="HomepageCorrecta.jpg">
+            </div>
         </div>
     </div>
+
     <section id="nuestrosProductos">
         <div class="px-4 py-12 lg:px-20">
             <div class="mb-8 text-center text-3xl">
