@@ -11,11 +11,12 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   output: "static",
-  adapter: vercel({
+  adapter: vercel(),
+});
+/*{
     includeFiles: ["./my-data.json"],
     imageService: true,
     webAnalytics: {
       enabled: true,
     },
-  }),
-});
+  }* */
