@@ -1,64 +1,66 @@
 ---
-
 ---
 
 <header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center py-4">
-        <a href="/">
-          <img class="w-64 h-32" src="/logo.jpg" alt="Logo">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-3">
+
+      <!-- Logo -->
+      <a href="/" aria-label="Avanti Logística - Inicio">
+        <img class="h-16 w-auto object-contain" src="/logo.jpg" alt="Avanti Logística" />
+      </a>
+
+      <!-- Menú Desktop -->
+      <nav class="hidden md:flex items-center space-x-8" aria-label="Navegación principal">
+        <a href="/" class="text-gray-700 hover:text-[#002366] font-medium transition-colors">Inicio</a>
+        <a href="/nuestrosProductos" class="text-gray-700 hover:text-[#002366] font-medium transition-colors">Servicios</a>
+        <a href="/sobreNosotros" class="text-gray-700 hover:text-[#002366] font-medium transition-colors">Nosotros</a>
+        <a href="/pqrs" class="text-gray-700 hover:text-[#002366] font-medium transition-colors">PQRS</a>
+        <a
+          href="https://wa.me/573015006672?text=Hola%2C%20necesito%20una%20cotización%20de%20carga%20internacional"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-[#002366] hover:bg-[#003087] text-white px-5 py-2 rounded-md font-semibold text-sm transition-colors shadow"
+        >
+          Cotizar Ahora
         </a>
-  
-        <!-- Menú Desktop -->
-        <nav class="hidden md:flex space-x-10">
-          <a href="/" class="text-gray-700 hover:text-gray-900">Inicio</a>
-          <a href="/nuestrosProductos" class="text-gray-700 hover:text-gray-900">Nuestros Servicios</a>
-          <a href="/sobreNosotros" class="text-gray-700 hover:text-gray-900">Acerca de Nosotros</a>
-          <a href="http://wa.me/573233412906" class="text-gray-700 hover:text-gray-900">Contáctanos</a>
-          <a href="/pqrs" class="text-gray-700 hover:text-gray-900">PQRS</a>
-        </nav>
-  
-        <!-- Botón menú móvil -->
-        <button id="menu-toggle" class="md:hidden text-gray-700 focus:outline-none">
-          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16m-7 6h7"></path>
-          </svg>
-        </button>
-      </div>
-  
-      <!-- Menú móvil -->
-      <nav id="mobile-menu" class="hidden absolute right-0 w-48 bg-white shadow-lg rounded-md py-2 ring-1 ring-black ring-opacity-5 z-50">
-        <a href="/" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Inicio</a>
-        <a href="/nuestrosProductos" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Nuestros Servicios</a>
-        <a href="/sobreNosotros" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Acerca de Nosotros</a>
-        <a href="http://wa.me/573233412906" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Contáctanos</a>
-        <a href="/pqrs" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">PQRS</a>
       </nav>
+
+      <!-- Botón menú móvil -->
+      <button id="menu-toggle" class="md:hidden text-gray-700 focus:outline-none" aria-label="Abrir menú">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
     </div>
-  
-    <!-- Script para el menú móvil -->
-    <script is:inline>
-      const dropdownButton = document.getElementById('menu-toggle');
-      const dropdownMenu = document.getElementById('mobile-menu');
-  
-      if (dropdownButton && dropdownMenu) {
-        let isDropdownOpen = false;
-  
-        function toggleDropdown() {
-          isDropdownOpen = !isDropdownOpen;
-          dropdownMenu.classList.toggle('hidden', !isDropdownOpen);
+  </div>
+
+  <!-- Menú móvil -->
+  <nav id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-3 space-y-2">
+    <a href="/" class="block py-2 text-gray-700 hover:text-[#002366] font-medium">Inicio</a>
+    <a href="/nuestrosProductos" class="block py-2 text-gray-700 hover:text-[#002366] font-medium">Servicios</a>
+    <a href="/sobreNosotros" class="block py-2 text-gray-700 hover:text-[#002366] font-medium">Nosotros</a>
+    <a href="/pqrs" class="block py-2 text-gray-700 hover:text-[#002366] font-medium">PQRS</a>
+    <a
+      href="https://wa.me/573015006672?text=Hola%2C%20necesito%20una%20cotización%20de%20carga%20internacional"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="block bg-[#002366] text-white px-4 py-2 rounded-md font-semibold text-sm text-center"
+    >
+      Cotizar Ahora
+    </a>
+  </nav>
+
+  <script is:inline>
+    const btn = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    if (btn && menu) {
+      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+      window.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add('hidden');
         }
-  
-        dropdownButton.addEventListener('click', toggleDropdown);
-  
-        window.addEventListener('click', (event) => {
-          if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.classList.add('hidden');
-            isDropdownOpen = false;
-          }
-        });
-      }
-    </script>
-  </header>
+      });
+    }
+  </script>
+</header>
