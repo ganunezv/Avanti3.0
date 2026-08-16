@@ -118,10 +118,17 @@ async function crearTareaEnNotion(campos: Record<string, string>) {
   }
 }
 
-async function enviarCorreo(campos: Record<string, string>) {
+async function enviarCorreo(campos: Record<string, string>, origen: string) {
   const respuesta = await fetch(`https://formsubmit.co/ajax/${CORREO_DESTINO}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      // Sin estas dos cabeceras FormSubmit rechaza las llamadas hechas
+      // desde un servidor ("will not work in pages browsed as HTML files").
+      Origin: origen,
+      Referer: `${origen}/cotiza`,
+    },
     body: JSON.stringify({
       _subject: 'Nueva solicitud de cotización - Avanti Logística',
       _captcha: 'false',
@@ -129,12 +136,15 @@ async function enviarCorreo(campos: Record<string, string>) {
     }),
   });
 
-  if (!respuesta.ok) {
-    throw new Error(`FormSubmit respondió ${respuesta.status}`);
+  // FormSubmit devuelve 200 incluso cuando falla: el resultado real va
+  // en el cuerpo. Sin esta comprobación los errores pasan desapercibidos.
+  const resultado = await respuesta.json().catch(() => ({}));
+  if (!respuesta.ok || resultado.success !== 'true') {
+    throw new Error(`FormSubmit no envió el correo: ${resultado.message ?? respuesta.status}`);
   }
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, url }) => {
   let campos: Record<string, string> = {};
 
   try {
@@ -149,7 +159,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Se intentan ambos destinos por separado: que uno falle no debe tumbar al otro.
-  const resultados = await Promise.allSettled([crearTareaEnNotion(campos), enviarCorreo(campos)]);
+  const resultados = await Promise.allSettled([
+    crearTareaEnNotion(campos),
+    enviarCorreo(campos, url.origin),
+  ]);
 
   resultados.forEach((resultado, i) => {
     if (resultado.status === 'rejected') {

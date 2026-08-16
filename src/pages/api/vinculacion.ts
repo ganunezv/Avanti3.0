@@ -231,10 +231,17 @@ async function crearTareaEnNotion(datos: Record<string, string>, urlCarpeta: str
   }
 }
 
-async function enviarCorreo(datos: Record<string, string>, urlCarpeta: string) {
-  await fetch(`https://formsubmit.co/ajax/${CORREO_DESTINO}`, {
+async function enviarCorreo(datos: Record<string, string>, urlCarpeta: string, origen: string) {
+  const respuesta = await fetch(`https://formsubmit.co/ajax/${CORREO_DESTINO}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      // Sin estas dos cabeceras FormSubmit rechaza las llamadas hechas
+      // desde un servidor ("will not work in pages browsed as HTML files").
+      Origin: origen,
+      Referer: `${origen}/vinculacion`,
+    },
     body: JSON.stringify({
       _subject: `Nueva vinculación - ${datos.razon_social ?? 'sin empresa'}`,
       _captcha: 'false',
@@ -242,6 +249,13 @@ async function enviarCorreo(datos: Record<string, string>, urlCarpeta: string) {
       carpeta_drive: urlCarpeta,
     }),
   });
+
+  // FormSubmit devuelve 200 incluso cuando falla: el resultado real va
+  // en el cuerpo. Sin esta comprobación los errores pasan desapercibidos.
+  const resultado = await respuesta.json().catch(() => ({}));
+  if (!respuesta.ok || resultado.success !== 'true') {
+    throw new Error(`FormSubmit no envió el correo: ${resultado.message ?? respuesta.status}`);
+  }
 }
 
 export const POST: APIRoute = async ({ request, url }) => {
@@ -313,7 +327,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     // Notion y el correo no deben tumbar el envío si fallan.
     const avisos = await Promise.allSettled([
       crearTareaEnNotion(datos, urlCarpeta),
-      enviarCorreo(datos, urlCarpeta),
+      enviarCorreo(datos, urlCarpeta, origen),
     ]);
     avisos.forEach((r, i) => {
       if (r.status === 'rejected') {
