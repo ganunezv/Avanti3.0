@@ -1,0 +1,503 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { DOCUMENTOS, FORMATOS_FIRMADOS } from '../data/vinculacion';
+
+// Formatos que la contraparte debe descargar, diligenciar y firmar.
+// Los PDF viven en /public/formularios/.
+const formatos = [
+  {
+    titulo: 'Circular 170 - Conocimiento de Cliente',
+    archivo: '/formularios/circular-170-conocimiento-cliente.pdf',
+  },
+  {
+    titulo: 'Acuerdo de Seguridad',
+    archivo: '/formularios/acuerdo-de-seguridad.pdf',
+  },
+  {
+    titulo: 'Formato de Visita de Seguridad',
+    archivo: '/formularios/formato-visita-de-seguridad.pdf',
+  },
+  {
+    titulo: 'Contrato de Agenciamiento',
+    archivo: '/formularios/contrato-de-agenciamiento.pdf',
+  },
+];
+
+// La lista de documentos vive en src/data/vinculacion.ts porque el endpoint
+// necesita las mismas etiquetas para nombrar los archivos en Drive.
+const documentos = DOCUMENTOS;
+const formatosFirmados = FORMATOS_FIRMADOS;
+
+const inputClass =
+  'w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#002366] text-sm';
+---
+
+<Layout
+  title="Vinculación de cliente o proveedor | Avanti Logística"
+  description="Formulario de vinculación de Avanti Logística. Descarga los formatos, adjunta los documentos requeridos y radica tu solicitud como cliente o proveedor."
+>
+
+  <section class="bg-[#001540] py-20 text-center">
+    <div class="max-w-3xl mx-auto px-6">
+      <p class="text-[#C9A84C] font-semibold text-sm uppercase tracking-widest mb-3">Formularios</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Vinculación de cliente o proveedor</h1>
+      <p class="text-gray-300 text-lg">Descarga los formatos, diligéncialos y radica tu documentación en línea.</p>
+    </div>
+  </section>
+
+  <!-- ======================================
+       PASO 1 — DESCARGA DE FORMATOS
+  ======================================= -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6">
+
+      <div class="text-center mb-10">
+        <p class="text-[#C9A84C] font-semibold text-sm uppercase tracking-widest mb-2">Paso 1</p>
+        <h2 class="text-3xl font-bold text-[#001540] mb-3">Descarga los formatos</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">
+          Los siguientes formatos deben ser diligenciados y firmados por el representante legal.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {formatos.map((f) => (
+          <div class="bg-white rounded-xl shadow-sm p-5 flex items-center gap-4">
+            <div class="w-11 h-11 bg-[#002366]/10 rounded-lg flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 stroke-[#002366]" fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+              </svg>
+            </div>
+
+            <div class="grow min-w-0">
+              <p class="font-semibold text-[#001540] text-sm leading-snug">{f.titulo}</p>
+            </div>
+
+            {f.archivo ? (
+              <a
+                href={f.archivo}
+                download
+                class="shrink-0 inline-flex items-center gap-1.5 bg-[#002366] hover:bg-[#003087] text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                Descargar
+              </a>
+            ) : (
+              <span class="shrink-0 border border-dashed border-gray-300 text-gray-400 text-xs font-semibold px-4 py-2 rounded-lg">
+                Próximamente
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================
+       PASO 2 — FORMULARIO
+  ======================================= -->
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-6">
+
+      <div class="text-center mb-10">
+        <p class="text-[#C9A84C] font-semibold text-sm uppercase tracking-widest mb-2">Paso 2</p>
+        <h2 class="text-3xl font-bold text-[#001540] mb-3">Radica tu documentación</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">
+          Completa los datos de la empresa y adjunta los documentos requeridos.
+        </p>
+      </div>
+
+      <form id="form-vinculacion" class="bg-gray-50 rounded-xl p-8 md:p-10 space-y-8" novalidate={false}>
+
+        <!-- Datos de la empresa -->
+        <div>
+          <p class="text-xs uppercase tracking-widest text-[#C9A84C] font-semibold mb-5">Datos de la empresa</p>
+
+          <div class="space-y-5">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="tipo_vinculacion">Tipo de vinculación *</label>
+              <select id="tipo_vinculacion" name="tipo_vinculacion" class={`${inputClass} bg-white`} required>
+                <option value="">Selecciona una opción</option>
+                <option value="cliente">Cliente</option>
+                <option value="proveedor">Proveedor</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="razon_social">Razón social *</label>
+                <input type="text" id="razon_social" name="razon_social" class={inputClass} placeholder="Nombre legal de la empresa" required />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="nit">NIT *</label>
+                <input type="text" id="nit" name="nit" class={inputClass} placeholder="900.000.000-0" required />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="direccion">Dirección *</label>
+                <input type="text" id="direccion" name="direccion" class={inputClass} placeholder="Dirección de la sede principal" required />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="ciudad">Ciudad / País *</label>
+                <input type="text" id="ciudad" name="ciudad" class={inputClass} placeholder="Bogotá, Colombia" required />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1" for="representante">Representante legal *</label>
+              <input type="text" id="representante" name="representante" class={inputClass} placeholder="Nombre completo" required />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="email">Correo electrónico *</label>
+                <input type="email" id="email" name="email" class={inputClass} placeholder="contacto@empresa.com" required />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="telefono">Teléfono / WhatsApp *</label>
+                <input type="tel" id="telefono" name="telefono" class={inputClass} placeholder="+57 300 000 0000" required />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documentos requeridos -->
+        <div class="pt-6 border-t border-gray-200">
+          <p class="text-xs uppercase tracking-widest text-[#C9A84C] font-semibold mb-2">Documentos requeridos</p>
+          <p class="text-xs text-gray-500 mb-5">Formatos aceptados: PDF, JPG o PNG.</p>
+
+          <div class="space-y-3">
+            {documentos.map((d, i) => (
+              <div class="doc-item rounded-lg p-4">
+                <div class="flex items-start gap-3">
+                  <span class="doc-num w-6 h-6 shrink-0 rounded-full text-xs font-bold flex items-center justify-center mt-0.5">
+                    {i + 1}
+                  </span>
+                  <div class="grow min-w-0">
+                    <label class="block text-sm font-medium text-gray-700" for={d.name}>
+                      {d.label}
+                      {d.siAplica && (
+                        <span class="ml-2 inline-block align-middle text-[10px] uppercase tracking-wider font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                          Si aplica
+                        </span>
+                      )}
+                    </label>
+                    {d.nota && <p class="text-xs text-gray-400 mt-0.5">{d.nota}</p>}
+                    <div class="mt-3 flex flex-wrap items-center gap-3">
+                      <input type="file" id={d.name} name={d.name} accept=".pdf,.jpg,.jpeg,.png" class="sr-only" />
+                      <label for={d.name} class="upload-btn inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer">
+                        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                        </svg>
+                        <span class="upload-text">Subir archivo</span>
+                      </label>
+                      <span class="file-name text-xs text-gray-500 truncate max-w-[240px]"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Formatos firmados -->
+        <div class="pt-6 border-t border-gray-200">
+          <p class="text-xs uppercase tracking-widest text-[#C9A84C] font-semibold mb-2">Formatos diligenciados y firmados</p>
+          <p class="text-xs text-gray-500 mb-5">Los formatos que descargaste en el paso 1, ya firmados por el representante legal.</p>
+
+          <div class="space-y-3">
+            {formatosFirmados.map((f, i) => (
+              <div class="doc-item rounded-lg p-4">
+                <div class="flex items-start gap-3">
+                  <span class="doc-num w-6 h-6 shrink-0 rounded-full text-xs font-bold flex items-center justify-center mt-0.5">
+                    {i + 1}
+                  </span>
+                  <div class="grow min-w-0">
+                    <label class="block text-sm font-medium text-gray-700" for={f.name}>{f.label}</label>
+                    <div class="mt-3 flex flex-wrap items-center gap-3">
+                      <input type="file" id={f.name} name={f.name} accept=".pdf,.jpg,.jpeg,.png" class="sr-only" />
+                      <label for={f.name} class="upload-btn inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer">
+                        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                        </svg>
+                        <span class="upload-text">Subir archivo</span>
+                      </label>
+                      <span class="file-name text-xs text-gray-500 truncate max-w-[240px]"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="pt-6 border-t border-gray-200">
+          <label class="block text-sm font-medium text-gray-700 mb-1.5" for="observaciones">Observaciones</label>
+          <textarea
+            id="observaciones" name="observaciones" rows="4"
+            class={`${inputClass} resize-none`}
+            placeholder="Indícanos si algún documento no aplica para tu caso o si lo enviarás por otro medio..."
+          ></textarea>
+        </div>
+
+        <!-- Aviso de error del envío -->
+        <div id="aviso-envio" class="hidden border-l-4 border-red-500 bg-red-50 rounded-r-lg p-4">
+          <p class="text-sm text-red-800 leading-relaxed" id="aviso-envio-texto"></p>
+        </div>
+
+        <!-- Progreso de subida -->
+        <div id="progreso" class="hidden">
+          <div class="flex justify-between text-sm text-gray-600 mb-2">
+            <span id="progreso-texto">Preparando…</span>
+            <span id="progreso-conteo" class="font-semibold"></span>
+          </div>
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div id="progreso-barra" class="h-full bg-[#002366] transition-all duration-300" style="width:0%"></div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="boton-enviar"
+          class="w-full bg-[#002366] hover:bg-[#003087] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors shadow"
+        >
+          Enviar solicitud de vinculación
+        </button>
+
+        <p class="text-xs text-gray-400 text-center">
+          Tus documentos se cargan directamente a nuestro repositorio seguro. No cierres esta ventana hasta que
+          termine la carga.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ======================================
+       AYUDA
+  ======================================= -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="bg-white rounded-xl shadow-sm p-8 text-center">
+        <h2 class="text-xl font-bold text-[#001540] mb-2">¿Tienes dudas con la documentación?</h2>
+        <p class="text-gray-500 text-sm mb-6 max-w-xl mx-auto">
+          Escríbenos y te acompañamos en el diligenciamiento. Si algún documento no aplica para tu caso, cuéntanos y lo revisamos contigo.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="https://wa.me/573015006672?text=Hola%2C%20tengo%20dudas%20sobre%20la%20vinculación%20como%20cliente%20o%20proveedor"
+            target="_blank" rel="noopener noreferrer"
+            class="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+          >
+            <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+          <a
+            href="mailto:gerencia@avantilogistica.com"
+            class="flex items-center justify-center gap-2 border border-gray-200 hover:border-[#002366] text-gray-700 hover:text-[#002366] text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+          >
+            Correo electrónico
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    document.querySelectorAll('.doc-item input[type="file"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const item = input.closest('.doc-item');
+        if (!item) return;
+
+        const adjunto = input.files.length > 0;
+        item.classList.toggle('is-filled', adjunto);
+
+        const nombre = item.querySelector('.file-name');
+        if (nombre) nombre.textContent = adjunto ? input.files[0].name : '';
+
+        const texto = item.querySelector('.upload-text');
+        if (texto) texto.textContent = adjunto ? 'Cambiar archivo' : 'Subir archivo';
+      });
+    });
+  </script>
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById('form-vinculacion');
+      if (!form) return;
+
+      const boton = document.getElementById('boton-enviar');
+      const aviso = document.getElementById('aviso-envio');
+      const avisoTexto = document.getElementById('aviso-envio-texto');
+      const progreso = document.getElementById('progreso');
+      const barra = document.getElementById('progreso-barra');
+      const textoProgreso = document.getElementById('progreso-texto');
+      const conteo = document.getElementById('progreso-conteo');
+
+      function mostrarError(mensaje) {
+        avisoTexto.innerHTML = mensaje;
+        aviso.classList.remove('hidden');
+        aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        progreso.classList.add('hidden');
+        boton.disabled = false;
+        boton.textContent = 'Enviar solicitud de vinculación';
+      }
+
+      /** Sube un archivo a su sesión de Drive. Devuelve true si quedó. */
+      function subirArchivo(url, archivo) {
+        return new Promise((resolve) => {
+          const peticion = new XMLHttpRequest();
+          peticion.open('PUT', url, true);
+          peticion.setRequestHeader('Content-Type', archivo.type || 'application/octet-stream');
+          peticion.onload = () => resolve(peticion.status >= 200 && peticion.status < 300);
+          peticion.onerror = () => resolve(false);
+          peticion.send(archivo);
+        });
+      }
+
+      form.addEventListener('submit', async (evento) => {
+        evento.preventDefault();
+        if (!form.reportValidity()) return;
+
+        aviso.classList.add('hidden');
+        boton.disabled = true;
+        boton.textContent = 'Enviando…';
+
+        // Datos de texto por un lado, archivos por otro.
+        const datos = {};
+        const archivos = [];
+
+        for (const campo of form.elements) {
+          if (!campo.name) continue;
+          if (campo.type === 'file') {
+            if (campo.files.length > 0) archivos.push({ campo: campo.name, archivo: campo.files[0] });
+          } else {
+            datos[campo.name] = campo.value;
+          }
+        }
+
+        progreso.classList.remove('hidden');
+        textoProgreso.textContent = 'Preparando la carga…';
+        conteo.textContent = '';
+        barra.style.width = '5%';
+
+        // 1. El servidor crea la carpeta y devuelve una URL de subida por archivo.
+        let respuesta;
+        try {
+          const peticion = await fetch('/api/vinculacion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              datos,
+              archivos: archivos.map((a) => ({
+                campo: a.campo,
+                filename: a.archivo.name,
+                mimeType: a.archivo.type,
+                size: a.archivo.size,
+              })),
+            }),
+          });
+          respuesta = await peticion.json();
+        } catch {
+          respuesta = { ok: false, error: 'No hay conexión con el servidor.' };
+        }
+
+        if (!respuesta.ok) {
+          mostrarError(
+            '<strong>No pudimos iniciar el envío.</strong> ' +
+              (respuesta.error || '') +
+              ' Inténtalo de nuevo o escríbenos por <a href="https://wa.me/573015006672" target="_blank" rel="noopener noreferrer" class="font-semibold underline">WhatsApp</a>.'
+          );
+          return;
+        }
+
+        // 2. El navegador sube cada archivo directo a Drive.
+        const porUrl = new Map(respuesta.subidas.map((s) => [s.campo, s.url]));
+        const fallidos = [];
+        let hechos = 0;
+
+        for (const { campo, archivo } of archivos) {
+          const url = porUrl.get(campo);
+          textoProgreso.textContent = 'Subiendo ' + archivo.name;
+          conteo.textContent = hechos + ' de ' + archivos.length;
+
+          const bien = url ? await subirArchivo(url, archivo) : false;
+          if (!bien) fallidos.push(archivo.name);
+
+          hechos++;
+          barra.style.width = Math.round((hechos / archivos.length) * 100) + '%';
+        }
+
+        conteo.textContent = hechos + ' de ' + archivos.length;
+
+        // 3. Solo se confirma si subieron todos.
+        if (fallidos.length > 0) {
+          mostrarError(
+            '<strong>No se pudieron subir ' +
+              fallidos.length +
+              ' de ' +
+              archivos.length +
+              ' archivos:</strong> ' +
+              fallidos.join(', ') +
+              '. El resto sí quedó guardado. Vuelve a adjuntar solo los que fallaron y envía de nuevo, o mándalos a ' +
+              '<a href="mailto:gerencia@avantilogistica.com" class="font-semibold underline">gerencia@avantilogistica.com</a>.'
+          );
+          return;
+        }
+
+        window.location.href = '/gracias';
+      });
+    })();
+  </script>
+
+</Layout>
+
+<style>
+  .doc-item {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    transition: border-color 0.15s, background-color 0.15s;
+  }
+  .doc-item:focus-within {
+    border-color: #002366;
+  }
+  .doc-item.is-filled {
+    border-color: #002366;
+    background-color: #f4f7fc;
+  }
+
+  .doc-num {
+    background-color: #f3f4f6;
+    color: #6b7280;
+  }
+  .doc-item.is-filled .doc-num {
+    background-color: #002366;
+    color: #ffffff;
+  }
+
+  /* Botón de subida (reemplaza al input nativo, que queda oculto) */
+  .upload-btn {
+    background-color: #002366;
+    color: #ffffff;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .upload-btn:hover {
+    background-color: #003087;
+  }
+  /* El input está oculto: el anillo de foco se dibuja sobre el botón */
+  .doc-item input[type='file']:focus-visible + .upload-btn {
+    outline: 2px solid #002366;
+    outline-offset: 2px;
+  }
+  /* Una vez adjuntado, el botón pasa a secundario para no competir con los pendientes */
+  .doc-item.is-filled .upload-btn {
+    background-color: #dfe7f7;
+    color: #002366;
+  }
+  .doc-item.is-filled .upload-btn:hover {
+    background-color: #cfdbf2;
+  }
+</style>
