@@ -12,6 +12,8 @@ export default defineConfig({
   },
   output: "static",
   adapter: vercel(),
+  // Oculta la barra flotante de Astro en desarrollo (nunca sale en producción).
+  devToolbar: { enabled: false },
 });
 /*{
     includeFiles: ["./my-data.json"],
